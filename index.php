@@ -186,11 +186,13 @@ function json_tweet_text_to_HTML($tweet, $links=true, $users=true, $hashtags=tru
     foreach ($obj as $key => $value) {
         echo '<li>';
         //投稿日時
-        $created_at = strtotime($value->created_at);
-        $created_at = date('Y/m/d', $created_at);
+        $tweetCreatedAt = date('Y/m/d', strtotime($value->created_at));
+        //ツイートのアドレス
+        $tweetUrl = 'https://twitter.com/' . $value->user->screen_name . '/status/' . $value->id;
+        //ツイート本文
+        $tweetText = json_tweet_text_to_HTML($value);
 
-        $text = json_tweet_text_to_HTML($value);
-        echo $created_at . ' ' . $text . '<br>';
+        echo '<a href="' . $tweetUrl . '" target="_blank">' . $tweetCreatedAt . '</a> ' . $tweetText  . '<br>';
         echo '</li>';
     }
 ?>
